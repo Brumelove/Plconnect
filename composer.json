@@ -1,0 +1,6 @@
+{
+    "require": {
+      "symfony/symfony": "3.2.4",
+        "twilio/sdk": "^5.32"
+    }
+  }

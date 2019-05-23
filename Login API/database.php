@@ -1,6 +1,6 @@
 <?php
   include ("dbConfig.php");
-class mobileNumber
+class database 
 {
     // attempts to delete existing entries and
     // save verification code in DB with phone number

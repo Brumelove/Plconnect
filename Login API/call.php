@@ -1,11 +1,14 @@
 <?php
+
     require __DIR__ . '/vendor/autoload.php';
     require("database.php");
 
     use TwilioRestClient;
 
-    function returnError($error)
-    {
+
+    class call {
+
+    public function returnError($error) {
         $json = array();
         $json["error"] = $error;
 
@@ -14,8 +17,7 @@
         echo(json_encode($json));
     }
 
-    function makeCall($submittedNumber, $code)
-    {
+    public function makeCall($submittedNumber, $code) {
         // put your project information here
         $accountSid = "YOUR_ACCOUNT_SID";
         $authToken = "YOUR_AUTH_TOKEN";
@@ -43,6 +45,7 @@
         header('Content-type: application/json');
         echo(json_encode($json));
     }
+}
 
     // require POST request
     if ($_SERVER['REQUEST_METHOD'] != "POST") die;
@@ -58,3 +61,6 @@
     } else {
         makeCall($submittedNumber, $code);
     }
+
+
+?>

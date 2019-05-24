@@ -2,25 +2,25 @@
   include ("dbConfig.php");
 class database 
 {
-    // attempts to delete existing entries and
-    // save verification code in DB with phone number
-    function updateDatabase($phoneNumber, $code)
+    // attempts to delete existing entries and save verification code in DB with phone number
+    public function updateDatabase($phoneNumber, $code)
     {
-        $pdo = setupDatabase();
-        if (!is_a($pdo, 'PDO')) {
+        $DBH =  new dbConfig();
+        $con = $DBH->connect();
+        if (!is_a($con, 'PDO')) {
             echo 'PDO is false';
-          return $pdo;
+          return $con;
         }
 
         // Assuming US country code for example
         $params = [ 'phoneNumber' => '1' . $phoneNumber ];
 
         try {
-            $stmt = $pdo->prepare("DELETE FROM mobilenumbers WHERE phone_number=:phoneNumber");
+            $stmt = $con->prepare("DELETE FROM mobilenumbers WHERE phone_number=:phoneNumber");
             $stmt->execute($params);
 
             $params['code'] = $code;
-            $stmt = $pdo->prepare("INSERT INTO mobilenumbers (phone_number, verification_code) VALUES(:phoneNumber, :code)");
+            $stmt = $con->prepare("INSERT INTO mobilenumbers (phone_number, verification_code) VALUES(:phoneNumber, :code)");
             $stmt->execute($params);
 
         } catch(PDOException $e) {
@@ -32,10 +32,11 @@ class database
 
     function matchVerificationCode($phoneNumber, $code)
     {
-        $pdo = setupDatabase();
-        if (!is_a($pdo, PDO::class)) {
+        $DBH =  new dbConfig();
+        $con = $DBH->connect();
+        if (!is_a($con, PDO::class)) {
             echo 'ERROR: PDO is false';
-            return 'ERROR: PDO is false '.$pdo;
+            return 'ERROR: PDO is false '.$con;
         }
 
         $params = [ 'phoneNumber' => $phoneNumber ];

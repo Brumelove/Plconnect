@@ -1,10 +1,8 @@
 <?php
   include ("dbConfig.php");
-class database 
-{
+class database {
     // attempts to delete existing entries and save verification code in DB with phone number
-    public function updateDatabase($phoneNumber, $code)
-    {
+    public function updateDatabase($phoneNumber, $code) {
         $DBH =  new dbConfig();
         $con = $DBH->connect();
         if (!is_a($con, 'PDO')) {
@@ -30,8 +28,7 @@ class database
         return $code;
     }
 
-    function matchVerificationCode($phoneNumber, $code)
-    {
+    public function matchVerificationCode($phoneNumber, $code) {
         $DBH =  new dbConfig();
         $con = $DBH->connect();
         if (!is_a($con, PDO::class)) {
@@ -60,8 +57,8 @@ class database
         }
     }
 
-    function statusIs($phoneNumber)
-    {
+    public function statusIs($phoneNumber) {
+
         $DBH =  new dbConfig();
         $con = $DBH->connect();
         if (!is_a($con, 'PDO')) {

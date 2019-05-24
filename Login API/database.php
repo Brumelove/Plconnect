@@ -42,13 +42,13 @@ class database
         $params = [ 'phoneNumber' => $phoneNumber ];
 
         try {
-            $stmt = $pdo->prepare("SELECT * FROM mobilenumbers WHERE phone_number=:phoneNumber");
+            $stmt = $con->prepare("SELECT * FROM mobilenumbers WHERE phone_number=:phoneNumber");
             $stmt->execute($params);
 
             $result = $stmt->fetch();
             $response = 'unverified';
             if ($result['verification_code'] == $code) {
-                $stmt = $pdo->prepare("UPDATE mobilenumbers SET verified = 1 WHERE phone_number=:phoneNumber");
+                $stmt = $con->prepare("UPDATE mobilenumbers SET verified = 1 WHERE phone_number=:phoneNumber");
                 $stmt->execute($params);
                 $response = 'verified';
             }
@@ -62,16 +62,17 @@ class database
 
     function statusIs($phoneNumber)
     {
-        $pdo = setupDatabase();
-        if (!is_a($pdo, 'PDO')) {
+        $DBH =  new dbConfig();
+        $con = $DBH->connect();
+        if (!is_a($con, 'PDO')) {
             echo 'PDO is false';
-            return $pdo;
+            return $con;
         }
 
         $params = [ 'phoneNumber' => $phoneNumber ];
 
         try {
-            $stmt = $pdo->prepare("SELECT * FROM mobilenumbers WHERE phone_number=:phoneNumber");
+            $stmt = $con->prepare("SELECT * FROM mobilenumbers WHERE phone_number=:phoneNumber");
             $stmt->execute($params);
 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
